@@ -1,0 +1,274 @@
+/*importanção da fonte, para o suso do icones.ttf*/
+@font-face {
+    font-family: 'icones';
+    src: url(../font/icones.ttf);
+}
+
+/*como ultilizar icones em páginas webs:*/
+/*https://www.alura.com.br/artigos/como-utilizar-icones-em-paginas-web*/
+
+/*conteúdoPagina*/
+body{
+    background-color: #1D232A;
+    font-family: 'Open Sans','icones', sans-serif;
+    color: #FFFF;
+}
+/*para dispositivos com tela de no minimo de 1440px de largura*/
+@media  screen and (min-width: 1440px) {
+    body{
+        display: grid;
+        grid-template-columns: auto 1fr;
+    }
+}
+
+
+
+/*Nota:Propriedades do Flexbox*/
+/*https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */ 
+
+.cabecalho{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #15191C;
+    padding: 8px 16px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.16);
+}
+
+
+.cabecalho__menu i::before{
+    content: "\e904";
+    font-size: 24px;
+}
+.cabecalho__noticacao i::before{
+    content: "\e906";
+    font-size: 24px;
+}
+
+.cabecalho__logo{
+    width: 40px;
+}
+
+.cabecalho__perfil{
+    display: none;
+}
+/*para dispositivos com tela de no minimo de 1440px de largura*/
+@media screen and (mini-width: 1440px){
+    .cabecalho{
+        background-color: #1D232A;
+        display: grid;
+        column-gap: 32px;
+        grid-template-columns: 1fr auto;
+        padding: 16px 60px;
+        height: 80px;
+        box-sizing: border-box;
+    }
+
+    .cabecalho__menu{
+        display: none;
+    }
+    .cabecalho__logo{
+        display: none;
+    }
+
+    .cabecalho__perfil{
+        display: grid;
+        grid-template-columns: repeat(3, auto);/*quantas vezes quer repetir e o valor que no caso é auto*/
+        column-gap: 8px;
+        align-items: center;
+        justify-self: flex-end;
+        color: #95999C;
+        padding: 8px 2px;
+        border-right: 1px solid #95999C;
+    }
+
+    .cabecalho__perfil::before{
+        content: "";
+        display: block;
+        width: 32px;
+        height: 32px;
+        background-image: url(../img/produto_2.png);
+        background-size: contain;
+        background-repeat: no-repeat;/*para que a imagem não se repita*/
+        background-position: center;
+    }
+    .cabecalho__perfil::after{
+        content: "/e90d";
+        color: #FFFF;
+        font-size: 1.5rem;
+    }
+
+}
+.menu-lateral{
+    display: flex;
+    flex-direction: column; /*deixa os elementos do menu um em baixo do outro*/ 
+    background-color: #15191C;
+    width: 75vw;
+    height: 100vh;
+    transition: .25s;
+    position: absolute;
+    left: -100vh;
+}
+
+.menu-lateral--ativo{
+    left: 0;
+    transition: .25s;
+}
+
+
+.meu-lateral__logo{
+    width: 118px;
+    align-self: center; /*aliamento do menu-lateral__logo no centro*/
+    padding: 16px;
+}
+.menu-lateral__link{
+    height: 64px;
+    color: #95999C;
+    padding-left: 64px;
+    display: flex;
+    align-items: center;
+}
+
+.menu-lateral__link--ativo{
+    color: #FFFF;
+    padding-left: 56px;
+    border-left: 8px solid #FFFF;
+}
+
+
+.menu-lateral__link::before{
+    content: "";
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+    position: absolute;
+    left: 24px;
+}
+
+/* elementos de imagens do menu lateral*/
+.menu-lateral__link--inicio::before{
+    content: "\e902";
+}
+
+.menu-lateral__link--videos::before{
+    content: "\e90e";
+}
+
+.menu-lateral__link--picos::before{
+    content: "\e909";
+}
+
+.menu-lateral__link--integrantes::before{
+    content: "\e903";
+}
+
+.menu-lateral__link-camisas::before{
+    content: "\e900";
+}
+
+.menu-lateral__link-pinturas::before{
+    content: "\e90a";
+}
+/****************************************************************************************************************/
+
+.prinpal{
+    padding: 24px 16px;
+    display: grid;
+    gap: 16px;
+
+}
+
+.titulo-pagina{
+    font-size: 1.5rem;
+    font-weight: 700; /*fonte em negrito*/
+}
+.titulo-secao{
+    font-size: 1.2 rem;
+    font-weight: 700;/*fonte em negrito*/
+}
+
+
+
+.cartao{
+    width: 100%;
+    border-radius: 15px;/*deixar a borda arredondada*/
+    overflow: hidden; /*qualquer coisa que passar desse cartão, vai esconder*/
+    background-color: #2C343A;
+}
+
+.cartao--destaque{
+    margin-bottom: 16px;
+}
+
+.cartao__conteudo{
+    padding: 16px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px;
+}
+
+.cartao__destaque{
+    grid-column: span 2;
+    
+}
+.cartao__titulo{
+    font-size: 1.2rem;
+    font-weight: 700;
+    grid-column: span 2;
+}
+.cartao__perfil{
+    color:#95999C;
+    font-size: 0.9rem;
+    grid-column: span 2;
+}
+
+.cartao__info{
+    display: flex;
+    align-items: center;
+    color: #95999C
+}
+.cartao__info--tempo::before{
+    content: "\e90c";
+    margin-right: 8px;
+}
+
+.cartao__info--vizualizacao::before{
+    content: "\e90f";
+    margin-right: 8px;
+}
+
+
+.cartao__botao{     /*só o icone*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0480DC;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    justify-self: flex-end; /*botão de play do cartao1, totalmente na direita*/
+}
+
+/*piseudo elemento(icone)*/
+
+.cartao__botao--play::before{
+    content: "\e90b";
+    font-size: 24px;
+}
+
+.cartao__botao--destaque{
+    width: 100%;
+    grid-column: span 2;
+
+}
+
+.cartao__botao--destaque::before{
+    margin-right: 8px;
+}
+/* cartões a baixo do cartão destaque*/
+.secao{
+    display: grid;
+    gap: 16px; /*espaçamento entre um cartão e outro*/
+}
+
