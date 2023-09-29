@@ -1,0 +1,4 @@
+- O login deve possuir um email e senha para se autenticar
+- O login deve validar se o usuario esta cadastrado
+- O login deve validar email e senha incorreto
+- O login deve validar se esta sendo retornado um accessToken

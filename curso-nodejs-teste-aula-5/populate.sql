@@ -1,0 +1,95 @@
+CREATE TABLE autores (
+  id            INTEGER NOT NULL PRIMARY KEY,
+  nome          TEXT    NOT NULL,
+  nacionalidade TEXT    NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO autores (nome, nacionalidade) 
+VALUES  ("JRR Tolkien", "sul-africano"),
+        ("Ursula LeGuin", "estadunidense"),
+        ("Machado de Assis", "brasileira");
+
+CREATE TABLE editoras (
+  id      INTEGER NOT NULL PRIMARY KEY,
+  nome    TEXT    NOT NULL,
+  cidade  TEXT    NOT NULL,
+  email   TEXT    NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO editoras (nome, cidade, email) 
+VALUES  ("Europa-América", "Lisboa", "e@e.com"),
+        ("Morro Branco", "São Paulo", "m@m.com"),
+        ("Aleph", "São Paulo", "al@al.com"),
+        ("Ateliê", "São Paulo", "a@a.com");
+
+CREATE TABLE livros (
+  id          INTEGER NOT NULL PRIMARY KEY,
+  titulo      TEXT    NOT NULL,
+  paginas     INTEGER NOT NULL,
+  editora_id  INTEGER NOT NULL,
+  autor_id    INTEGER NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (editora_id) REFERENCES editoras (id),
+  FOREIGN KEY (autor_id) REFERENCES autores (id)
+);
+
+INSERT INTO livros (titulo, paginas, autor_id, editora_id)
+VALUES 
+   ("O Hobbit", 230, 1, 1),
+   ("O Silmarillion", 400, 1, 1),
+   ("O Silmarillion", 400, 1, 1),
+   ("O Feiticeiro de Terramar", 450, 2, 2),
+   ("Os Despossuídos", 300, 2, 3),
+   ("Memórias Póstumas de Brás Cubas", 150, 3, 4);
+
+CREATE TABLE usuarios (
+  id      INTEGER NOT NULL PRIMARY KEY,
+  nome    TEXT    NOT NULL,
+  email   TEXT    NOT NULL,
+  senha   TEXT    NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+--Senha correspondente a "123456"
+INSERT INTO usuarios (nome, email, senha)
+VALUES 
+   ("Raphael Lucas", "raphael@teste.com.br", "$2a$08$O25sT46kb7UEjRFNIJcEiu/tOOB8O.ddr.GuAO/PuQOfwNobGeXXG");
+
+CREATE TABLE livros_imagens (
+  id          INTEGER NOT NULL PRIMARY KEY,
+  livro_id    INTEGER NOT NULL,                         
+  mimetype    TEXT NOT NULL,                         
+  filename    TEXT NOT NULL,                         
+  size        INTEGER NOT NULL,   
+  base64      TEXT NOT NULL,                         
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (livro_id) REFERENCES livros (id)
+);
+
+INSERT INTO livros_imagens (livro_id, mimetype, filename, size, base64)
+VALUES 
+   (1, "image/png", "curso node.png", 2857, "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");
+
+CREATE TABLE aluguel_livro (
+  id              INTEGER NOT NULL PRIMARY KEY,
+  livro_id        INTEGER NOT NULL,                         
+  usuario_id      INTEGER NOT NULL,                         
+  dias_alugados   INTEGER NOT NULL,
+  alugado         BOOLEAN NOT NULL,                 
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (livro_id) REFERENCES livros (id)
+  FOREIGN KEY (usuario_id) REFERENCES usuarios (id)
+);
+
+INSERT INTO aluguel_livro (livro_id, usuario_id, dias_alugados, alugado)
+VALUES 
+   (1, 1, 2, true);
+   
