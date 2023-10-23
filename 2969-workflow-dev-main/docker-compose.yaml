@@ -1,0 +1,74 @@
+version: '3.4'
+
+services:
+  dev:
+    build: .
+    container_name: livraria_api_dev
+    command: npm run dev
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app:cached
+    depends_on:
+      - db
+      - unleash
+  test:
+    build: .
+    container_name: livraria_api_test
+    command: npm run test
+    working_dir: /app
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./:/app:cached
+  db:
+    image: postgres
+    container_name: livraria_db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin123
+      - POSTGRES_DB=livraria_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - database:/var/lib/postgresql/data
+
+  unleash:
+    build: ./unleash-docker/.
+    ports:
+      - "4242:4242"
+    environment:
+      DATABASE_URL: "postgres://postgres:unleash@db_unleash/postgres"
+      DATABASE_SSL: "false"
+
+      INIT_CLIENT_API_TOKENS: "default:development.unleash-insecure-api-token"
+
+    depends_on:
+      - db_unleash
+    command: ["./wait-for", "db:5432", "--", "node", "index.js"]
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:4242/health || exit 1
+      interval: 1s
+      timeout: 1m
+      retries: 5
+      start_period: 15s
+  db_unleash:
+    expose:
+      - "5432"
+    image: postgres:14
+    environment:
+      # create a database called `db`
+      POSTGRES_DB: "db"
+      # trust incoming connections blindly (DON'T DO THIS IN PRODUCTION!)
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    healthcheck:
+      test: ["CMD", "pg_isready", "--username=postgres", "--host=127.0.0.1", "--port=5432"]
+      interval: 2s
+      timeout: 1m
+      retries: 5
+      start_period: 10s
+
+
+volumes:
+   database:
