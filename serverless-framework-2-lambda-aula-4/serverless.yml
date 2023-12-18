@@ -1,0 +1,65 @@
+org: antonioevaldo
+app: serverless-framework-2-lambda
+service: serverless-framework-2-lambda
+frameworkVersion: '3'
+
+resources:
+  extensions:
+    S3BucketAlunoscsv:
+      Properties:
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+                - POST
+                - PUT
+                - GET
+                - HEAD
+              AllowedOrigins:
+                - "*"
+              AllowedHeaders:
+                - "*"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: 
+            - s3:GetObject
+          Resource: 
+            - arn:aws:s3:::alunos-csv/*
+
+functions:
+  cadastrarAlunos:
+    handler: cadastro_batch/aws/index.cadastrarAlunos
+    events:
+      - s3:
+          bucket: alunos-csv
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .csv
+
+  simulandoUploadDoCsv:
+    handler: cadastro_batch/local/index.simulandoUploadDoCsv
+    events:
+      - httpApi:
+          path: /alunos/batch
+          method: post
+    enabled: false
+
+  cadastrarAlunosDoBucketLocal:
+    handler: cadastro_batch/local/index.cadastrarAlunosDoBucketLocal
+    events:
+      - s3:
+          bucket: alunos-csv-local
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .csv
+    enabled: false
+
+plugins:
+  - serverless-offline
+  - serverless-s3-local
+  - serverless-disable-functions
