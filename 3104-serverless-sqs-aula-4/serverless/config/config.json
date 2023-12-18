@@ -1,0 +1,9 @@
+{
+  "fetchApi": {
+    "prod": "http://curso-serverless3-api-824290766.us-east-1.elb.amazonaws.com",
+    "dev": "http://localhost:3001"
+  },
+  "slsUrl": {
+    "prod": "https://ttugopzen4.execute-api.us-east-1.amazonaws.com"
+  }
+}
